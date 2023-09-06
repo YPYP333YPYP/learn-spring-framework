@@ -12,7 +12,7 @@ public class App02HelloWorldSpring {
 		
 		var context = new AnnotationConfigApplicationContext(HelloWorldConfiguration.class);
 		
-		// step2. Spring이 이것들을 관리할것을 설정한다. 
+		// step2. Spring이 이것들을 관리하도록 설정한다. 
 		// HelloWorldConfiguration -@Configuration
 		// name - @Bean
 		
@@ -23,7 +23,15 @@ public class App02HelloWorldSpring {
 		
 		System.out.println(context.getBean("person"));
 		
-		System.out.println(context.getBean("address"));
+		System.out.println(context.getBean("person2MethodCall"));
+		
+		System.out.println(context.getBean("person3Parameters"));
+		
+		System.out.println(context.getBean("address2"));
+		
+		System.out.println(context.getBean("address3"));
+		
+		//System.out.println(context.getBean(Address.class));
 		
 	}
 
