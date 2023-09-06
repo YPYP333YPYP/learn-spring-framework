@@ -1,7 +1,9 @@
 package com.practice.learnspringframework;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 //record는 Java 16 부터 나온 기능으로 getter, setter, 생성자를 만들 필요 없이 자동으로 만들어주는 기능을 가진다. 
 record Person (String name, int age, Address address) {};
@@ -42,13 +44,28 @@ public class HelloWorldConfiguration {
 		return new Person(name, age, address3);
 	}
 	
+	@Bean
+	@Primary
+	public Person person4Parameters(String name, int age, Address address) {
+		return new Person(name, age, address);
+	}
+	
+	@Bean
+	public Person person5Qualifier(String name, int age, @Qualifier("address3qualifier") Address address) {
+		return new Person(name, age, address);
+	}
+	
+	
 	// address 객체는 address2 라는 bean name을 가질 수 있다. 
 	@Bean(name = "address2")
+	// Bean이 겹치는 경우 Primary 어노테이션을 사용해서 가장 중요한 Bean을 내보낼 수 있다. 
+	@Primary
 	public Address address() {
 		return new Address("Baker Street","London");
 	}
 	
 	@Bean(name = "address3")
+	@Qualifier("address3qualifier")
 	public Address address3() {
 		return new Address("Main Street","Seoul");
 	}

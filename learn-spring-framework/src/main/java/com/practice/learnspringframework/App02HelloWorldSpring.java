@@ -1,5 +1,7 @@
 package com.practice.learnspringframework;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 
@@ -26,13 +28,26 @@ public class App02HelloWorldSpring {
 		System.out.println(context.getBean("person2MethodCall"));
 		
 		System.out.println(context.getBean("person3Parameters"));
+
+		System.out.println(context.getBean("person4Parameters"));
+
+		System.out.println(context.getBean("person5Qualifier"));
 		
 		System.out.println(context.getBean("address2"));
 		
 		System.out.println(context.getBean("address3"));
 		
-		//System.out.println(context.getBean(Address.class));
 		
+		
+		// 여러 개의 Bean 이 있을 때 이것을 검색하는 방법
+		
+		// Spring이 관리하는 모든 Bean을 출력하기
+		// Arrays.stream(context.getBeanDefinitionNames()).forEach(System.out::println);
+		
+		// 겹치는 Bean이 있을 경우 
+		System.out.println(context.getBean(Address.class));
+		
+		System.out.println(context.getBean(Person.class));
 	}
 
 }
