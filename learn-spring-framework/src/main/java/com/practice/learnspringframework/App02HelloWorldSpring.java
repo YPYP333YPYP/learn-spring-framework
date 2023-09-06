@@ -2,6 +2,7 @@ package com.practice.learnspringframework;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+
 public class App02HelloWorldSpring {
 
 	public static void main(String[] args) {
@@ -17,6 +18,12 @@ public class App02HelloWorldSpring {
 		
 		// step3. Bean이 Spring에 의해 관리 되는지 확인한다.
 		System.out.println(context.getBean("name"));
+		
+		System.out.println(context.getBean("age"));
+		
+		System.out.println(context.getBean("person"));
+		
+		System.out.println(context.getBean("address"));
 		
 	}
 
