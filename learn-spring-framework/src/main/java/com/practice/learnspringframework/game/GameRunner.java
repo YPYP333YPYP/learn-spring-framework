@@ -2,10 +2,9 @@ package com.practice.learnspringframework.game;
 
 public class GameRunner {
 	
-	//MarioGame game;
-	SuperContraGame game;
-	// 강한 결합의 모습
-	public GameRunner(SuperContraGame game) {
+	GamingConsole game;
+	// 약한 결합의 모습
+	public GameRunner(GamingConsole game) {
 		this.game = game;
 	}
 	
