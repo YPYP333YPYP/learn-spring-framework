@@ -31,4 +31,17 @@ public class SayHelloController {
 		
 		return sb.toString();
 	}
+	
+	// 가장 널리 사용되는 뷰 기술은 JSP(Java Server Pages)이다. 
+	// jsp 파일은 Spring Boot에서 특정한 경로의 폴더에 생성 해야한다. 
+	// 즉 jsp 파일은 항상 같은 공간에 저장 되기 때문에 application.properties 파일에 항상 앞에오는 내용을 prefix에 저장, 항상 뒤에 오는 내용을 suffix에 저장할 수 있다.
+	// 여기서는 @ResponseBody 어노테이션을 제거해야 하는데 이유는 우리가 원하는 것은 jsp로 리다이렉션 하는 것이기 때문이다. 
+	// 일련의 과정을 살펴보면 /say-hello-jsp 라는 url로 접속하면 SayHelloController의 sayHelloJsp method가 요청을 처리하는데 이때 sayHello가 return 된다.
+	// 여기서 Spring MVC는 뷰 리졸버를 사용하는데 application.properties에 설정해놓은 접두어와 접미어를 통해 경로와 확장자명을 붙이게 되고 완성된 jsp 파일로 사용자에게 리다이렉션하게 된다. 
+	@RequestMapping("say-hello-jsp")
+	public String sayHelloJsp() {
+		return "sayHello";
+	}
+	
+	
 }
