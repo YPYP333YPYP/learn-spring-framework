@@ -13,4 +13,22 @@ public class SayHelloController {
 	public String sayHello() {
 		return "Hello! What are you learning today?";
 	}
+	
+	// 그냥 문자열을 첨부하는 것은 효율성이 떨어지기 때문에 StringBuffer를 사용하여 html 구문을 삽입
+	// html을 response로 사용했지만 위 방식은 사실상 비효율적, 다음 단계에서 View를 이용하여 개선필요
+	@RequestMapping("say-hello-html")
+	@ResponseBody
+	public String sayHelloHtml() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("<html>");
+		sb.append("<head>");
+		sb.append("<title>My first HTML Page</title>");
+		sb.append("</head>");
+		sb.append("<body>");
+		sb.append("My first html page with body");
+		sb.append("</body>");
+		sb.append("</html>");
+		
+		return sb.toString();
+	}
 }
