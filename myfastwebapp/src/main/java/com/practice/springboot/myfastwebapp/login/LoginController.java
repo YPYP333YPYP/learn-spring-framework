@@ -11,6 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 	
+	private AuthenticationService authenticationService;
+	
+	public LoginController(AuthenticationService authenticationService) {
+		super();
+		this.authenticationService = authenticationService;
+	}
+
 	// 일반적으로 정보를 확인할 때 sysout을 사용하지만 이것 보다는 logging을 사용하는 것이 좋다.
 	// logging은 레벨에 따라 debug, info 등 세분화하여 메세지를 확인할 수 있다.
 	// Logback은 로깅 프레임워크이며 여기서는 SLF4j를 사용했다. 
@@ -29,10 +36,15 @@ public class LoginController {
 	// 그렇기에 RequestMapping 옵션 중 method 옵션을 다르게 주어 다른 API로 설정할 수 있다.
 	@RequestMapping(value="login", method=RequestMethod.POST)
 	public String gotoWelcomePage(@RequestParam String name, @RequestParam String password, ModelMap model) {
-		model.put("name", name);
-		model.put("password", password);
 		
-		return "welcome";
+		if (authenticationService.authentiacate(name, password)) {
+			
+			model.put("name", name);
+			
+			return "welcome";
+		}
+		model.put("errorMessage", "Invalid Credentials! Plz try again");
+		return "login";
 	}
 
 }
