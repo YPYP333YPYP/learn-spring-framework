@@ -29,15 +29,22 @@ public class TodoController {
 		return "listTodos";
 	}
 	
+	
 	@RequestMapping(value="add-todo", method=RequestMethod.GET)
-	public String showNewTodoPage() {
+	public String showNewTodoPage(ModelMap model) {
+		String username = (String)model.get("name");
+		Todo todo = new Todo(0, username, "", LocalDate.now().plusYears(1), false);
+		model.put("todo", todo);
 		return "todo";
 	}
 	
+	// Todo 객체의 필드값은 5개이다. 만약 필드값이 10개 이상이라면 파라미터로 적기 애매할 것 이다.
+	// 그렇기에 등장한 개념이 커맨드 빈이다. Spring Bean에 등록 되어있기 때문에 직접 Todo Bean에 바인딩 하는 것 이다. 
+	// 이때 주의할 점은 ModelMap이 인자로 먼저 와야 한다는 것 이다. 
 	@RequestMapping(value="add-todo", method=RequestMethod.POST)
-	public String addNewTodo(@RequestParam String description, ModelMap model) {
+	public String addNewTodo(ModelMap model, Todo todo) {
 		String username = (String)model.get("name");
-		todoService.addTodo(username, description, LocalDate.now().plusYears(1), false);
+		todoService.addTodo(username, todo.getDescription(), LocalDate.now().plusYears(1), false);
 		
 		return "redirect:list-todos";
 	}
