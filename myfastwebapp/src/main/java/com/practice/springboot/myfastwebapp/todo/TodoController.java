@@ -5,10 +5,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
+import jakarta.validation.Valid;
 
 @Controller
 @SessionAttributes("name")
@@ -42,7 +45,11 @@ public class TodoController {
 	// 그렇기에 등장한 개념이 커맨드 빈이다. Spring Bean에 등록 되어있기 때문에 직접 Todo Bean에 바인딩 하는 것 이다. 
 	// 이때 주의할 점은 ModelMap이 인자로 먼저 와야 한다는 것 이다. 
 	@RequestMapping(value="add-todo", method=RequestMethod.POST)
-	public String addNewTodo(ModelMap model, Todo todo) {
+	public String addNewTodo(ModelMap model, @Valid Todo todo, BindingResult result) {
+		
+		if(result.hasErrors()) {
+			return "todo";
+		}
 		String username = (String)model.get("name");
 		todoService.addTodo(username, todo.getDescription(), LocalDate.now().plusYears(1), false);
 		
