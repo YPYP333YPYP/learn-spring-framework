@@ -22,8 +22,12 @@ public class TodoService {
 		
 	}
 	
+	// findByUsername의 메서드 또한 바뀌게 되는데 todo의 username과 사용자가 입력한 username의 일치를 판단하는 함수형 인터페이스를 생성해서
+	// stream 객체로 데이터의 흐름을 만들고 필터링을 하여 일치하는 것만 반환할 수 있게 된다. 
 	public List<Todo> findByUsername(String username){
-		return todos;
+		Predicate<? super Todo> predicate = 
+				todo -> todo.getUsername().equalsIgnoreCase(username);
+		return todos.stream().filter(predicate).toList();
 	}
 	
 	public void addTodo(String username, String description, LocalDate targetDate, boolean done) {
