@@ -1,14 +1,19 @@
 package com.practice.springboot.myfastwebapp.security;
 
+
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import java.util.function.Function;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SpringSecurityConfiguration {
@@ -16,22 +21,50 @@ public class SpringSecurityConfiguration {
 	@Bean
 	public InMemoryUserDetailsManager createUserDetailsManager() {
 		
-		Function<String, String> passwordEncoder
-				= input -> passwordEncoder().encode(input);
+		UserDetails userDetails1 = createNewUser("Lee", "dummy");
+		UserDetails userDetails2 = createNewUser("Lee2", "dummydummy");
 		
+		// InMemoryUserDetailsManager의 경우 파라미터를 가변인자로 받을 수 있기 때문에 여러 파라미터 입력이 가능하다. 
+		return new InMemoryUserDetailsManager(userDetails1, userDetails2);
+	}
+	
+	// 기존의 createUserDetailManager 메서드를 리팩토링하여 createNewUser 메서드를 만들어 userDetails를 만들 수 있도록 하였다. 
+	private UserDetails createNewUser(String username, String password) {
+		Function<String, String> passwordEncoder
+		= input -> passwordEncoder().encode(input);
+
 		UserDetails userDetails = User.builder()
 									.passwordEncoder(passwordEncoder)
-									.username("Lee")
-									.password("dummy")
+									.username(username)
+									.password(password)
 									.roles("USER","ADMIN")
 									.build();
-		
-		return new InMemoryUserDetailsManager(userDetails);
+		return userDetails;
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+	
+	// Spring Security는 기본적으로 모든 URL을 보호하며, login 양식은 권한이 없을때 요청 되어진다.
+	// h2 console과 같은 페이지를 사용할 때마다 login 양식을 보는 것은 비효율적 이기 때문에 
+	// Http 요청중 일부를 제외하는 메서드를 생성하는 것 이다. 
+	// 파라미터로는 HttpSecurity 객체를 사용하는데 이는 Spring Security의 구성을 설정하는데 사용되는 객체이다.
+	// http.authorizeHttpRequests 부분은 모든 HTTP 요청에 대해서 인증된 사용자만 접근할 수 있도록 설정하며 이는 로그인한 사용자는 모든 요청에 접근할 수 있다는 뜻이다.
+	// http.formLogin 부분은 일반적인 로그인 구성을 자동으로 설정하며, csrf 공격을 방지하는 csrf 보호 기능을 비활성화하고 X-Frame-Options을 비활성화 하여 
+	// h2-console과 같은 관리 페이지를 이동하는데 로그인 양식이 뜨지 않도록 메서드를 구성했다. 
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		
+		http.authorizeHttpRequests(
+				auth -> auth.anyRequest().authenticated());
+		http.formLogin(withDefaults());
+		
+		http.csrf().disable();
+		http.headers().frameOptions().disable();
+		
+		return http.build();
 	}
 	
 }

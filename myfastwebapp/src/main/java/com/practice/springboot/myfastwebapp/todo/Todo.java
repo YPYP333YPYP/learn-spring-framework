@@ -2,10 +2,19 @@ package com.practice.springboot.myfastwebapp.todo;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Size;
 
+
+// Entity 어노테이션을 사용하면 Spring Bean을 자동으로 Database 테이블로 생성할 수 있게 된다.
+// Id 어노테이션이나 Column 어노테이션을 사용해 속성의 이름을 변경하는 등의 행동을 취할 수 있다. 
+@Entity
 public class Todo {
 	
+	@Id
+	@GeneratedValue
 	private int id;
 	private String username;
 	
@@ -13,6 +22,11 @@ public class Todo {
 	private String description;
 	private LocalDate targetDate;
 	private boolean done;
+	
+	public Todo() {
+		
+	}
+	
 	
 	public Todo(int id, String username, String description, LocalDate targetDate, boolean done) {
 		super();

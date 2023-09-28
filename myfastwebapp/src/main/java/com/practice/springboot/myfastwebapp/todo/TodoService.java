@@ -16,9 +16,9 @@ public class TodoService {
 	private static int todosCount = 0;
 	
 	static {
-		todos.add(new Todo(++todosCount, "practice", "Learn Google Cloud", LocalDate.now().plusYears(1),false));
-		todos.add(new Todo(++todosCount, "practice", "Learn DevOps", LocalDate.now().plusYears(2),false));
-		todos.add(new Todo(++todosCount, "practice", "Learn Full Stack", LocalDate.now().plusYears(3),false));
+		todos.add(new Todo(++todosCount, "Lee", "Learn Google Cloud", LocalDate.now().plusYears(1),false));
+		todos.add(new Todo(++todosCount, "Lee", "Learn DevOps", LocalDate.now().plusYears(2),false));
+		todos.add(new Todo(++todosCount, "Lee", "Learn Full Stack", LocalDate.now().plusYears(3),false));
 		
 	}
 	
