@@ -63,6 +63,30 @@ public class TodoController {
 		
 	}
 	
+	
+	// 업데이트 페이지로 이동(todo page)
+	@RequestMapping(value="update-todo", method = RequestMethod.GET)
+	public String showUpdateTodoPage(@RequestParam int id, ModelMap model) {
+		// todo를 수정하기 위해서 id가 일치하는 todo를 가져와서 사용자에게 보여줌
+		Todo todo = todoService.findById(id);
+		model.addAttribute("todo", todo);
+		return "todo";
+	}
+	
+	// todo page에서 form 형식으로 POST 요청을 보냄
+	@RequestMapping(value="update-todo", method = RequestMethod.POST)
+	public String updateTodo(ModelMap model, @Valid Todo todo, BindingResult result) {
+		
+		if(result.hasErrors()) {
+			return "todo";
+		}
+		
+		String username = (String)model.get("name");
+		todo.setUsername(username);
+		todoService.updateTodo(todo);
+		return "redirect:list-todos";
+	}
+	
 }
 
 
