@@ -2,6 +2,7 @@ package com.practice.rest.webservices.restfulwebservices.helloworld;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -20,6 +21,13 @@ public class HelloWorldController {
 	@GetMapping(path = "/hello-world-bean")
 	public HelloWorldBean helloWorldBean() {
 		return new HelloWorldBean("Hello World"); 
+	}
+	
+	// URL에 사용자가 정보를 입력하는 경우도 있는데 그 부분을 패스 매개변수라고 부른다.
+	// 입력하는 부분은 path 상에서 { } 처리하며 Controller 메서드에서는 @PathVariable 어노테이션을 사용하여 값을 입력받는다.
+	@GetMapping(path = "/hello-world/path-variable/{name}")
+	public HelloWorldBean helloWorldPathVariable(@PathVariable String name) {
+		return new HelloWorldBean(String.format("Hello World, %s", name)); 
 	}
 
 	
