@@ -15,6 +15,12 @@ public class HelloWorldController {
 	public String helloWorld() {
 		return "Hello World"; 
 	}
+	
+	// String 반환이 아닌, JSON 형식으로 객체 데이터(Spring Bean)을 반환하는 컨트롤러를 생성했다.
+	@GetMapping(path = "/hello-world-bean")
+	public HelloWorldBean helloWorldBean() {
+		return new HelloWorldBean("Hello World"); 
+	}
 
 	
 }
