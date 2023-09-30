@@ -36,9 +36,9 @@ public class UserDaoService {
 	}
 
 	// 이전에도 사용한 함수형 인터페이스를 이용하여 메서드를 구축했다. 
+	// orElse(null)부분을 추가하여 일치하는 사용자가 없을 경우 null를 반환한다. 이는 Controller 파일에서 조건문으로 예외 처리가 가능하다.
 	public User findOne(int id) {
 		Predicate<? super User> predicate = user -> user.getId().equals(id); 
-		return users.stream().filter(predicate).findFirst().get();
+		return users.stream().filter(predicate).findFirst().orElse(null);
 	}
-
 }
