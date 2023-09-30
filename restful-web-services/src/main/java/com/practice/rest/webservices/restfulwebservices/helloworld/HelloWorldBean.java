@@ -1,5 +1,6 @@
 package com.practice.rest.webservices.restfulwebservices.helloworld;
 
+
 public class HelloWorldBean {
 
 	private String message;
