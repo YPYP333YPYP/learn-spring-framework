@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class UserResource {
 
@@ -42,7 +44,7 @@ public class UserResource {
 	// 기존에는 간단하게 User 객체를 반환했다면 사용자로 하여금 create를 뜻하는 201코드를 전송하며 더불어 생성된 User를 조회할 수 있는
 	// location를 사용자로 하여금 전달하기 위해서 ResponseEntity를 반환하는 것 이다.
 	@PostMapping("/users")
-	public ResponseEntity<User> createUser(@RequestBody User user) {
+	public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
 		
 		User savedUser = service.save(user);
 		

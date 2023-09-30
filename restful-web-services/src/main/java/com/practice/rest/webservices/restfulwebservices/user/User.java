@@ -2,10 +2,21 @@ package com.practice.rest.webservices.restfulwebservices.user;
 
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+
 public class User {
 	
+	
 	private Integer id;
+	
+	
+	// 이전에 했던 내용 처럼 Controller에서 파라미터에 @Valid 어노테이션이 사용되면 필드값에 대해서 유효성 검증이 가능하다.
+	// 예시로 @Size는 글자수의 최소크기를 지정할 수 있고, @Past는 Date에 대해서 이전의 Date만 사용하도록 만들 수 있다.
+	@Size(min=2, message = "Name should have atleast 2 characters")
 	private String name;
+	
+	@Past(message = "Birth Date should be in the past")
 	private LocalDate birthDate;
 	
 	public User(Integer id, String name, LocalDate birthDate) {
