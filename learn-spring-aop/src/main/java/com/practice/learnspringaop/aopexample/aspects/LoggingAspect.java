@@ -21,19 +21,19 @@ public class LoggingAspect {
 	// Logging 관점은 크게 언제, 무엇을 로깅할 것인지에 대해서 명시 해야 하는데
 	// @Before 어노테이션으로 해당 패키지의 모든 메서드를 프로그램이 실행되기 전에 인터셉트해서 
 	// JopPoint를 이용해서 로그를 가져온다. 
-	@Before("execution(* com.practice.learnspringaop.aopexample.*.*.*(..))")
+	@Before("execution(* com.practice.learnspringaop.aopexample.CommonPointcutConfig.allPackageConfigUsingBean()")
 	public void logMethodCall(JoinPoint joinPoint) {
 		logger.info("Before Aspect - {} is called with arguments: {}"
 				,  joinPoint, joinPoint.getArgs());
 	}
 	
-	@After("execution(* com.practice.learnspringaop.aopexample.*.*.*(..))")
+	@After("execution(* com.practice.learnspringaop.aopexample.aspects.CommonPointcutConfig.businessPackageConfig()")
 	public void logMethodCallAfterExecution(JoinPoint joinPoint) {
 		logger.info("After Aspect - {} has executed",  joinPoint);
 	}
 
 	@AfterThrowing(
-	pointcut = "execution(* com.practice.learnspringaop.aopexample.*.*.*(..))",
+	pointcut = "execution(* com.practice.learnspringaop.aopexample.aspects.CommonPointcutConfig.businessAndDataPackageConfig()",
 	throwing = "exception"
 	)
 	public void logMethodCallAfterException(JoinPoint joinPoint, Exception exception) {
@@ -42,7 +42,7 @@ public class LoggingAspect {
 	}
 
 	@AfterReturning(
-	pointcut = "execution(* com.practice.learnspringaop.aopexample.*.*.*(..))",
+	pointcut = "execution(* com.practice.learnspringaop.aopexample.aspects.CommonPointcutConfig.dataPackageConfig()",
 	returning = "resultValue"
 	)
 	public void logMethodCallAfterSuccessfulExecution(JoinPoint joinPoint, 
